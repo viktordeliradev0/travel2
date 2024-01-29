@@ -1,0 +1,126 @@
+﻿@using travelingExperience.Data.Enums
+@model IEnumerable<travelingExperience.Entity.Travel>
+
+
+@{
+    ViewData["Title"] = "List of Travels";
+}
+
+
+<form id="filterForm" class="mb-3">
+    @* Dropdown for selecting start destination *@
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="startDestinationSelect">Select Start Destination:</label>
+        <select class="form-select" id="startDestinationSelect">
+            <option value="">All Start Destinations</option>
+            @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
+            {
+                <option value="@value">@value</option>
+            }
+        </select>
+    </div>
+
+    @* Dropdown for selecting end destination *@
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="endDestinationSelect">Select End Destination:</label>
+        <select class="form-select" id="endDestinationSelect">
+            <option value="">All End Destinations</option>
+            @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
+            {
+                <option value="@value">@value</option>
+            }
+        </select>
+    </div>
+
+    <button type="button" class="btn btn-primary" id="filterButton" onclick="filterDestinations()">Filter by Destinations</button>
+
+
+</form>
+<div id="noResultsMessage" style="display: none;">No matching travels found.</div>
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        <div class="col-md-4  mb-3">
+            <div class="card">
+                @if (item.TravelPicData != null && !string.IsNullOrEmpty(item.ProfilePictureContentType))
+                {
+                    string imageBase64 = Convert.ToBase64String(item.TravelPicData);
+                    string imageDataURL = string.Format("data:{0};base64,{1}", item.ProfilePictureContentType, imageBase64);
+                    <img src="@imageDataURL" class="card-img-top" alt="Travel Picture">
+                }
+                else
+                {
+                    <p>No picture</p>
+                }
+                <div class="card-body">
+
+                    <h5 class="card-title"><b>Тръгва от:</b> @item.StartDestination - <b>Пристига в:</b> @item.EndDestination</h5>
+                    <p class="card-text"><b>Дата на тръгване: </b>@item.StartDate.ToString("dd MMM yy")</p>
+                    <p class="card-text"><b>Дата на пристигане: </b>@item.EndDate.ToString("dd MMM yy")</p>
+                    <p class="card-text"><b>Mеста: </b>@item.Seats</p>
+                    <p class="card-text"><b>Цена: </b>@item.Price лв</p>
+                    <p class="card-text ">
+                        <b>Status: </b>
+                        @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate && item.AvailableSeats > 0)
+                        {
+                            <span class="badge bg-success">AVAILABLE</span>
+                        }
+                        else if (DateTime.Now > item.EndDate || item.Seats == 0)
+                        {
+                            <span class="badge bg-danger">EXPIRED</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">UPCOMING</span>
+                        }
+                    </p>
+
+                </div>
+
+                <div class="col-md-12">
+                    <div class="card-footer ">
+                        <p class="card-text">
+                            <a class="btn btn-outline-primary float-right" asp-action="Info" asp-route-id="@item.Id">
+                                <i class="bi bi-eye-fill"></i> Show Details
+                            </a>
+                            <a class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? "disabled" : "")"
+                               asp-controller="Travel"
+                               asp-action="info"
+                               asp-route-id="@item.Id">
+                                <i class="bi bi-cart-plus"></i> Add to Liked (Price @item.Price.ToString("c"))
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Handle filter button click
+            document.getElementById('filterButton').addEventListener('click', function () {
+                filterDestinations();
+            });
+
+            function filterDestinations() {
+                var startDestination = document.getElementById('startDestinationSelect').value;
+                var endDestination = document.getElementById('endDestinationSelect').value;
+
+                // Redirect to the FilteredTravels action with filter parameters
+                window.location.href = '/Travel/FilteredTravels?startDestination=' + startDestination + '&endDestination=' + endDestination;
+            }
+        });
+    </script>
+    
+
+}
+
+
+
+
+
+
+

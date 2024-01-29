@@ -1,0 +1,95 @@
+﻿@using System.Globalization
+@using travelingExperience.Data.Enums
+@model travelingExperience.Entity.Travel
+
+
+@{
+    ViewData["Title"] = "Travel Magazine";
+}
+
+
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <div class="card-header bg-info text-white">
+                    <h4 class="card-title">@Model.StartDestination - @Model.EndDestination</h4>
+                    <p class="card-subtitle mb-2 text-muted">
+                        Start Date: @Model.StartDate.ToString("dd MMM yy") - End Date: @Model.EndDate.ToString("dd MMM yy")
+                    </p>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="card-text">
+                                <b>Posted By:</b><br />
+                                @if (Model != null && Model.User != null)
+                                {
+                                  
+                                <a href="@Url.Action("ProfileView", "User", new { id = Model.User.Id })">@Model.User.UserName</a>
+                               
+                                }
+                                else
+                                {
+                                    <span>User not available</span>
+                                }
+                                <br />
+                                <b>Description:</b><br />
+                                @Model.Descrition
+                            </p>
+                            <p class="card-text">
+                                <b>Seats Available:</b> @Model.AvailableSeats<br />
+                                <b>Price:</b> @Model.Price.ToString("c", CultureInfo.CurrentCulture)
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="card-text">
+                                <b>Status:</b><br />
+                                @if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate && Model.AvailableSeats > 0)
+                                {
+                                    <span class="badge bg-success">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > Model.EndDate || Model.Seats == 0)
+                                {
+                                    <span class="badge bg-danger">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-primary">UPCOMING</span>
+                                }
+
+                            </p>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                               
+                                    <form asp-action="Reservation" asp-controller="Travel" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="travelId" value="@Model.Id" />
+                                        <label for="reservedSeats">Number of Seats:</label>
+                                        <input type="number" name="reservedSeats" required />
+                                        <button type="submit">Reserve Seats</button>
+                                    @if (TempData["ReservationWarning"] != null)
+                                    {
+                                        <div class="alert alert-warning">
+                                            @TempData["ReservationWarning"]
+                                        </div>
+                                    }
+
+                                    </form>
+                                
+                            }
+                            else
+                            {
+                                <p>Please <a href="/User/Login">log in</a> to make a reservation.</p>
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
