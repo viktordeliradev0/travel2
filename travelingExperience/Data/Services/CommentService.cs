@@ -62,4 +62,27 @@ public class CommentService
     {
         return _db.Comments.Where(c => c.UserID == userId).ToList();
     }
+    public async Task DeleteCommentAsync(int commentId)
+    {
+        try
+        {
+            // Find the comment by ID
+            var commentToDelete = await _db.Comments.FindAsync(commentId);
+
+            if (commentToDelete != null)
+            {
+                // Remove the comment from the database context
+                _db.Comments.Remove(commentToDelete);
+
+                // Save changes to the database
+                await _db.SaveChangesAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle exceptions appropriately
+            Console.WriteLine($"Error deleting comment: {ex.Message}");
+            throw;
+        }
+    }
 }

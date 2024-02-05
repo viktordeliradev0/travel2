@@ -1,0 +1,147 @@
+﻿/* styles.css */
+
+/* General Styles */
+body {
+    background-image: url('give a road but 7686e7f3-4857-43d7-b936-51b599a051ff.png');
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* Header Styles */
+header {
+    color: #fff;
+    padding: 20px 0;
+}
+
+nav ul {
+    list-style: none;
+    float: right;
+}
+
+    nav ul li {
+        display: inline;
+        margin-left: 20px;
+    }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #fff;
+        }
+
+/* Hero Section Styles */
+.hero {
+    position: relative;
+    color: #fff;
+    text-align: center;
+    padding: 100px 0;
+    border: 2px solid #fff; /* Border added */
+}
+
+    .hero .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('blueCar.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+    .hero h2 {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+/* How It Works Section Styles */
+.how-it-works {
+    position: relative;
+    color: #333;
+    padding: 50px 0;
+    border: 2px solid #333; /* Border added */
+}
+
+    .how-it-works .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('WIN_20240129_09_39_13_Pro.jpg');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+/* Services Section Styles */
+.services {
+    position: relative;
+    color: #fff;
+    padding: 50px 0;
+    border: 2px solid #fff; /* Border added */
+}
+
+    .services .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('make a travelin 8be63aeb-de2f-4a74-9c05-18eabb9e1576.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.service {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Background color with opacity */
+    border-radius: 5px;
+}
+
+    .service img {
+        width: 100%;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+    footer ul {
+        list-style: none;
+        padding: 0;
+    }
+
+        footer ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+            footer ul li a {
+                color: #fff;
+                text-decoration: none;
+            }

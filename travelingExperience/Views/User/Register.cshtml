@@ -1,93 +1,135 @@
 ﻿@model travelingExperience.Models.RegisterModel
 
-
-<h2>
-    Sign Up
-</h2>
-<form method="post" asp-action="Register" asp-controller="User">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Name"></label>
-        <div class="col-md-10">
-            <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-    </div>
-    <br/>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="SName"></label>
-        <div class="col-md-10">
-            <input asp-for="SName" class="form-control" />
-            <span asp-validation-for="SName" class="text-danger"></span>
-        </div>
-    </div>
-    <br/>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="UserName"></label>
-        <div class="col-md-10">
-            <input asp-for="UserName" class="form-control" />
-            <span asp-validation-for="UserName" class="text-danger"></span>
-        </div>
-    </div>
-   <br/>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Email"></label>
-        <div class="col-md-10">
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-    </div>
-    <br/>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Password"></label>
-        <div class="col-md-10">
-            <input asp-for="Password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-    </div>
-    <br/>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="ConfirmPassword"></label>
-        <div class="col-md-10">
-            <input asp-for="ConfirmPassword" class="form-control" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-    </div>
-    <br />
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Number"></label>
-        <div class="col-md-10">
-            <input asp-for="Number" class="form-control" />
-            <span asp-validation-for="Number" class="text-danger"></span>
-        </div>
-    </div>
-    <br />
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="Age"></label>
-        <div class="col-md-10">
-            <input asp-for="Age" class="form-control" />
-            <span asp-validation-for="Age" class="text-danger"></span>
-        </div>
-        <br />
-    </div>
-    <div class="form-group row">
-        <label class="col-md-2" asp-for="RoleName"></label>
-        <div class="col-md-10">
-           <select asp-for="RoleName"
-                    asp-items="@travelingExperience.Data.Helper.GetRolesForDropDown()" class="form-control"></select>
-        </div>
-    </div>
-    <br/>
-    <div class="form-group">
-        <div class="col-md-10 offset-md-2">
-            <input type="submit" value="Register" class="btn btn-success" />
-        </div>
-    </div>
-    <br/>
-    <p class="col-md-10 offset-md-2">
-        <a asp-action="Login">Sing In</a>
-    </p>
-</form>
-@section Scripts{
-    <partial name="_ValidationScriptsPartial" />
+@{
+    ViewData["Title"] = "Sign Up";
 }
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        h2 {
+            color: #28a745;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-control {
+            border-radius: 5px;
+        }
+        .btn-success {
+            border-radius: 5px;
+        }
+        .offset-md-2 {
+            margin-left: 16.66667%;
+        }
+        a {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="text-center">Sign Up</h2>
+                <form method="post" asp-action="Register" asp-controller="User">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">First Name</label>
+                        <div class="col-md-10">
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Last Name</label>
+                        <div class="col-md-10">
+                            <input asp-for="SName" class="form-control" />
+                            <span asp-validation-for="SName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Username</label>
+                        <div class="col-md-10">
+                            <input asp-for="UserName" class="form-control" />
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Email</label>
+                        <div class="col-md-10">
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Password</label>
+                        <div class="col-md-10">
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Confirm Password</label>
+                        <div class="col-md-10">
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Phone Number</label>
+                        <div class="col-md-10">
+                            <input asp-for="Number" class="form-control" />
+                            <span asp-validation-for="Number" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Age</label>
+                        <div class="col-md-10">
+                            <input asp-for="Age" class="form-control" />
+                            <span asp-validation-for="Age" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Role</label>
+                        <div class="col-md-10">
+                           <select asp-for="RoleName"
+                                    asp-items="@travelingExperience.Data.Helper.GetRolesForDropDown()" class="form-control"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="offset-md-2">
+                            <input type="submit" value="Register" class="btn btn-success" />
+                        </div>
+                    </div>
+                    <p class="offset-md-2">
+                        <a asp-action="Login">Sign In</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.1/dist/umd/popper.min.js" integrity="sha384-Fk1hlhEy7Aj+N7qlsftU2QdUP7wqy9q3d5VwTjAdYj6MoTrP7L3iUMu1o1EEop1" crossorigin="anonymous"></script> *@
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCk+XvZtUNv/Z9vToR0skBvV+pFfnD0uHsSc" crossorigin="anonymous"></script>
+</body>
+</html>

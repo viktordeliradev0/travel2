@@ -7,7 +7,13 @@
     <ul>
         @foreach (var comment in Model)
         {
-            <li>@comment.CommentText - Posted at @comment.CommentDate</li>
+            <li>
+                @comment.CommentText - Posted at @comment.CommentDate
+                <form method="post" asp-action="DeleteComment" asp-controller="Comment">
+                    <input type="hidden" name="id" value="@comment.Id" />
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
         }
     </ul>
 }
@@ -15,4 +21,3 @@ else
 {
     <p>No comments yet.</p>
 }
-
