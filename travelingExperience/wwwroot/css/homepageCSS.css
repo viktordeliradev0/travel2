@@ -1,42 +1,46 @@
-﻿/* styles.css */
-
-/* General Styles */
+﻿
 body {
     background-image: url('give a road but 7686e7f3-4857-43d7-b936-51b599a051ff.png');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed; /* This ensures that the background image remains fixed while scrolling */
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
-.container {
-    width: 80%;
-    margin: 0 auto;
-}
+
+/* homepageCSS.css */
 
 /* Header Styles */
-header {
-    color: #fff;
-    padding: 20px 0;
+
+.logo {
+    width: 100px; /* Adjust the width as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+.container {
+    display: flex; /* Use flexbox */
+    justify-content: space-between; /* Align items to the start and end of the container */
+    align-items: center; /* Center items vertically */
 }
 
-nav ul {
-    list-style: none;
-    float: right;
+nav {
+    display: flex; /* Use flexbox */
+    align-items: center; /* Center items vertically */
 }
 
-    nav ul li {
-        display: inline;
-        margin-left: 20px;
+    nav .pull-right {
+        margin-left: auto; /* Push the content to the right */
     }
 
-        nav ul li a {
-            text-decoration: none;
-            color: #fff;
-        }
+    nav a {
+        text-decoration: none;
+        color: #333;
+        margin-left: 20px; /* Add spacing between buttons */
+    }
 
-/* Hero Section Styles */
+
+
 .hero {
     position: relative;
     color: #fff;
