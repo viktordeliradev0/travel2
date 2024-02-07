@@ -9,7 +9,8 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Hello, @User.Identity.Name
                 </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu border" style="color:white" aria-labelledby="navbarDropdown">
+
                     <a class="dropdown-item" asp-action="Profile" asp-controller="User">Profile</a>
                     <a class="dropdown-item" asp-action="UserTravels" asp-controller="User">My Travels</a>
                     <a class="dropdown-item" asp-action="Create" asp-controller="Travel">Create Travel</a>

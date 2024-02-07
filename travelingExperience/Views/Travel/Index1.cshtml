@@ -1,103 +1,104 @@
 ﻿@using travelingExperience.Data.Enums
 @model IEnumerable<travelingExperience.Entity.Travel>
 
-
 @{
     ViewData["Title"] = "List of Travels";
 }
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-nW0ETu/3GrQQPNB2zqWLMX+fcvSgeO3Bo1n4bfPf4yyOz2DXY/+d7RLSyml3wAsqX5B4DZ+YiMdpqS/UzAm7zQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/travelsCSS.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <form id="filterForm" class="mb-3">
+            <div class="input-group">
+                <select class="form-select" id="startDestinationSelect">
+                    <option value="">All Start Destinations</option>
+                    @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
+                    {
+                        <option value="@value">@value</option>
+                    }
+                </select>
+                <select class="form-select" id="endDestinationSelect">
+                    <option value="">All End Destinations</option>
+                    @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
+                    {
+                        <option value="@value">@value</option>
+                    }
+                </select>
+                <button type="button" class="btn btn-primary" id="filterButton" onclick="filterDestinations()">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </form>
+        <div id="noResultsMessage" style="display: none;">No matching travels found.</div>
 
-<form id="filterForm" class="mb-3">
-    @* Dropdown for selecting start destination *@
-    <div class="input-group mb-3">
-        <label class="input-group-text" for="startDestinationSelect">Select Start Destination:</label>
-        <select class="form-select" id="startDestinationSelect">
-            <option value="">All Start Destinations</option>
-            @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
+        <div class="row">
+            @foreach (var item in Model)
             {
-                <option value="@value">@value</option>
-            }
-        </select>
-    </div>
-
-    @* Dropdown for selecting end destination *@
-    <div class="input-group mb-3">
-        <label class="input-group-text" for="endDestinationSelect">Select End Destination:</label>
-        <select class="form-select" id="endDestinationSelect">
-            <option value="">All End Destinations</option>
-            @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
-            {
-                <option value="@value">@value</option>
-            }
-        </select>
-    </div>
-
-    <button type="button" class="btn btn-primary" id="filterButton" onclick="filterDestinations()">Filter by Destinations</button>
-
-
-</form>
-<div id="noResultsMessage" style="display: none;">No matching travels found.</div>
-<div class="row">
-    @foreach (var item in Model)
-    {
-
-        <div class="col-md-4  mb-3">
-            <div class="card">
-                @if (item.TravelPicData != null && !string.IsNullOrEmpty(item.ProfilePictureContentType))
-                {
-                    string imageBase64 = Convert.ToBase64String(item.TravelPicData);
-                    string imageDataURL = string.Format("data:{0};base64,{1}", item.ProfilePictureContentType, imageBase64);
-                    <img src="@imageDataURL" class="card-img-top" alt="Travel Picture">
-                }
-                else
-                {
-                    <p>No picture</p>
-                }
-                <div class="card-body">
-
-                    <h5 class="card-title"><b>Тръгва от:</b> @item.StartDestination - <b>Пристига в:</b> @item.EndDestination</h5>
-                    <p class="card-text"><b>Дата на тръгване: </b>@item.StartDate.ToString("dd MMM yy")</p>
-                    <p class="card-text"><b>Дата на пристигане: </b>@item.EndDate.ToString("dd MMM yy")</p>
-                    <p class="card-text"><b>Mеста: </b>@item.Seats</p>
-                    <p class="card-text"><b>Цена: </b>@item.Price лв</p>
-                    <p class="card-text ">
-                        <b>Status: </b>
-                        @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate && item.AvailableSeats > 0)
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        @if (item.TravelPicData != null && !string.IsNullOrEmpty(item.ProfilePictureContentType))
                         {
-                            <span class="badge bg-success">AVAILABLE</span>
-                        }
-                        else if (DateTime.Now > item.EndDate || item.Seats == 0)
-                        {
-                            <span class="badge bg-danger">EXPIRED</span>
+                            string imageBase64 = Convert.ToBase64String(item.TravelPicData);
+                            string imageDataURL = string.Format("data:{0};base64,{1}", item.ProfilePictureContentType, imageBase64);
+                            <img src="@imageDataURL" class="card-img-top" alt="Travel Picture">
                         }
                         else
                         {
-                            <span class="badge bg-primary">UPCOMING</span>
+                            <div class="card-img-top" style="height: 200px; background-color: #f0f0f0;"></div>
                         }
-                    </p>
 
-                </div>
+                        <div class="card-body">
+                            <h5 class="card-title">From: @item.StartDestination - To: @item.EndDestination</h5>
+                            <p class="card-text">Departure Date: @item.StartDate.ToString("dd MMM yy")</p>
+                            <p class="card-text">Arrival Date: @item.EndDate.ToString("dd MMM yy")</p>
+                            <p class="card-text">Seats Available: @item.Seats</p>
+                            <p class="card-text">Price: @item.Price лв</p>
+                            <p class="card-text">
+                                Status:
+                                @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate && item.AvailableSeats > 0)
+                                {
+                                    <span class="badge badge-success">AVAILABLE</span>
+                                }
+                                else if (DateTime.Now > item.EndDate || item.Seats == 0)
+                                {
+                                    <span class="badge badge-danger">EXPIRED</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-primary">UPCOMING</span>
+                                }
+                            </p>
+                        </div>
 
-                <div class="col-md-12">
-                    <div class="card-footer ">
-                        <p class="card-text">
+                        <div class="card-footer bg-transparent">
                             <a class="btn btn-outline-primary float-right" asp-action="Info" asp-route-id="@item.Id">
-                                <i class="bi bi-eye-fill"></i> Show Details
+                                <i class="fas fa-info-circle"></i> Show Details
                             </a>
-                            <a class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? "disabled" : "")"
+                            <a class="btn btn-success text-white float-left @((DateTime.Now > item.EndDate) ? "disabled" : "")"
                                asp-controller="Travel"
                                asp-action="info"
                                asp-route-id="@item.Id">
-                                <i class="bi bi-cart-plus"></i> Add to Liked (Price @item.Price.ToString("c"))
+                                <i class="fas fa-cart-plus"></i> Add to Liked (Price @item.Price.ToString("c"))
                             </a>
-                        </p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
-    }
-</div>
-@section Scripts {
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCk+XvZtUNv/Z9vToR0skBvV+pFfnD0uHsSc" crossorigin="anonymous"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Handle filter button click
@@ -114,13 +115,5 @@
             }
         });
     </script>
-    
-
-}
-
-
-
-
-
-
-
+</body>
+</html>

@@ -1,29 +1,45 @@
 ﻿@model UserProfileViewModel
 
-<h1>@Model.UserName Profile</h1>
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Model.UserName Профил</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/profileCSS.css">
+</head>
+<body>
+    <div class="container">
+        <h1>@Model.UserName Профил</h1>
 
-<div>
-    <p><strong>Name:</strong> @Model.Name</p>
-    <p><strong>Surname:</strong> @Model.SName</p>
-    <p><strong>Username:</strong> @Model.UserName</p>
-    <p><strong>Email:</strong> @Model.Email</p>
-    <p><strong>Number:</strong> @Model.Number</p>
-    <p><strong>Age:</strong> @Model.Age</p>
-   
-</div>
-@if (Model.Comments != null && Model.Comments.Any())
+        <div class="profile-info">
+            <p><strong>Име:</strong> @Model.Name</p>
+            <p><strong>Фамилия:</strong> @Model.SName</p>
+            <p><strong>Потребителско име:</strong> @Model.UserName</p>
+            <p><strong>Имейл:</strong> @Model.Email</p>
+            <p><strong>Телефонен номер:</strong> @Model.Number</p>
+            <p><strong>Години:</strong> @Model.Age</p>
+        </div>
 
-{
-    <h2>Comments</h2>
-    <ul>
-        @foreach (var comment in Model.Comments)
-        {
-            <li>@comment.CommentText - Posted at @comment.CommentDate</li>
-        }
-    </ul>
-}
-else
-{
-    <p>No comments yet.</p>
-}
-
+        <div class="comments-section">
+            @if (Model.Comments != null && Model.Comments.Any())
+            {
+                <h2>Коментари</h2>
+                <ul>
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <li class="comment">
+                            <p>@comment.CommentText - Публикуван на @comment.CommentDate</p>
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Все още няма коментари.</p>
+            }
+        </div>
+    </div>
+</body>
+</html>

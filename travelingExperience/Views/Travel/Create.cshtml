@@ -7,63 +7,66 @@
     ViewData["Title"] = "Create New Travel";
 }
 
-<h1>Create New Travel</h1>
-<div class="row">
-    <div class="col-md-8 offset-2">
-        <form asp-action="Create" enctype = "multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserID" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+<h1 class="text-center">@ViewData["Title"]</h1>
 
-            <div class="form-group">
-                <label asp-for="StartDestination" class="control-label">Тръгване от:</label>
-                @Html.DropDownListFor(m => m.StartDestination, Enum.GetValues(typeof(TravelDestinations)).Cast<TravelDestinations>().Select(enumValue => new SelectListItem
-           {
-               Text = enumValue.ToString(),
-               Value = ((int)enumValue).ToString()
-           }), "Please select", new { @class = "form-control" })
-                <span asp-validation-for="StartDestination" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="EndDestination" class="control-label">Тръгване от:</label>
-                @Html.DropDownListFor(m => m.EndDestination, Enum.GetValues(typeof(TravelDestinations)).Cast<TravelDestinations>().Select(enumValue => new SelectListItem
-           {
-               Text = enumValue.ToString(),
-               Value = ((int)enumValue).ToString()
-           }), "Please select", new { @class = "form-control" })
-                <span asp-validation-for="EndDestination" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label aps-for="Desrition" class="control-label">Описание:</label>
-                <input asp-for="Descrition" class="form-control" />
-                <span asp-validation-for="Descrition" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label aps-for="StartDate" class="control-label"> Час на тръгване:</label>
-                <input asp-for="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label aps-for="EndDate" class="control-label"> Час на пристигане:</label>
-                <input asp-for="EndDate" class="form-control" />
-                <span asp-validation-for="EndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label aps-for="Price" class="control-label">Цена:</label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label aps-for="Seats" class="control-label">Места:</label>
-                <input asp-for="Seats" class="form-control" />
-                <span asp-validation-for="Seats" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label aps-for="TravelPic" class="control-label">Места:</label>
-                <input asp-for="TravelPic" class="form-control" />
-                <span asp-validation-for="TravelPic" class="text-danger"></span>
-            </div>
-            <input type="submit" value="Create" class="btn btn-outline-success" />
-        </form>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="UserID" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+
+                <div class="form-group">
+                    <label asp-for="StartDestination" class="control-label">Start Destination:</label>
+                    @Html.DropDownListFor(m => m.StartDestination, Enum.GetValues(typeof(TravelDestinations)).Cast<TravelDestinations>().Select(enumValue => new SelectListItem
+               {
+                   Text = enumValue.ToString(),
+                   Value = ((int)enumValue).ToString()
+               }), "Please select", new { @class = "form-control" })
+                    <span asp-validation-for="StartDestination" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDestination" class="control-label">End Destination:</label>
+                    @Html.DropDownListFor(m => m.EndDestination, Enum.GetValues(typeof(TravelDestinations)).Cast<TravelDestinations>().Select(enumValue => new SelectListItem
+               {
+                   Text = enumValue.ToString(),
+                   Value = ((int)enumValue).ToString()
+               }), "Please select", new { @class = "form-control" })
+                    <span asp-validation-for="EndDestination" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Descrition" class="control-label">Description:</label>
+                    <input asp-for="Descrition" class="form-control" />
+                    <span asp-validation-for="Descrition" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartDate" class="control-label">Start Date:</label>
+                    <input asp-for="StartDate" class="form-control" />
+                    <span asp-validation-for="StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-label">End Date:</label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-label">Price:</label>
+                    <input asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Seats" class="control-label">Seats:</label>
+                    <input asp-for="Seats" class="form-control" />
+                    <span asp-validation-for="Seats" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TravelPic" class="control-label">Travel Picture:</label>
+                    <input type="file" asp-for="TravelPic" class="form-control-file" />
+                    <span asp-validation-for="TravelPic" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Create</button>
+            </form>
+        </div>
     </div>
 </div>
-

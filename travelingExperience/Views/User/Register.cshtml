@@ -18,6 +18,7 @@
             background-repeat: no-repeat;
             font-family: Arial, sans-serif;
             background-position: center;
+        }
 
         .container {
             margin-top: 50px;
@@ -25,15 +26,14 @@
 
         h2 {
             color: #28a745;
-           
             font-size: 36px;
             font-weight: bold;
-            text-align: center;
+            text-align: left;
             text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
         }
 
         form {
-            background-color:transparent;
+            background-color: transparent;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -41,6 +41,7 @@
 
         .form-group label {
             font-weight: bold;
+            color: white;
         }
 
         .form-control {
@@ -51,15 +52,12 @@
             border-radius: 5px;
         }
 
-        .offset-md-2 {
-            margin-left: 16.66667%;
-        }
-
         a {
             color: #007bff;
         }
-        label{
-            color:white;
+
+        label {
+            color: white;
         }
     </style>
 </head>
@@ -67,78 +65,77 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="text-center" style="text-align:left">Регистрация</h2>
+                <h2 class="text-center" style="text-align: left;">Регистрация</h2>
                 <form method="post" asp-action="Register" asp-controller="User">
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label"style="color:white">Име</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Име</label>
+                        <div class="col-md-9">
                             <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Фамилия</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Фамилия</label>
+                        <div class="col-md-9">
                             <input asp-for="SName" class="form-control" />
                             <span asp-validation-for="SName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Потребителско   име</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Потребителско име</label>
+                        <div class="col-md-9">
                             <input asp-for="UserName" class="form-control" />
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Е-поща</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Е-поща</label>
+                        <div class="col-md-9">
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Парола</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Парола</label>
+                        <div class="col-md-9">
                             <input asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Потвърди паролата</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Потвърди паролата</label>
+                        <div class="col-md-9">
                             <input asp-for="ConfirmPassword" class="form-control" />
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Телефонен номер</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Телефонен номер</label>
+                        <div class="col-md-9">
                             <input asp-for="Number" class="form-control" />
                             <span asp-validation-for="Number" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Години</label>
-                        <div class="col-md-10">
+                        <label class="col-md-3 col-form-label">Години</label>
+                        <div class="col-md-9">
                             <input asp-for="Age" class="form-control" />
                             <span asp-validation-for="Age" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md--2 col-form-label">Роля</label>
-                        <div class="col-md-10">
-                            <select asp-for="RoleName"
-                                    asp-items="@travelingExperience.Data.Helper.GetRolesForDropDown()" class="form-control"></select>
+                        <label class="col-md-3 col-form-label">Роля</label>
+                        <div class="col-md-9">
+                            <select asp-for="RoleName" asp-items="@travelingExperience.Data.Helper.GetRolesForDropDown()" class="form-control"></select>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="offset-md--2">
+                        <div class="text-center">
                             <input type="submit" value="Регистрация" class="btn btn-success" />
                         </div>
                     </div>
-                    <p class="offset-md--2">
+                    <p class="text-center">
                         <a asp-action="Login">Вход</a>
                     </p>
                 </form>
@@ -146,7 +143,6 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    @* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.7.1/dist/umd/popper.min.js" integrity="sha384-Fk1hlhEy7Aj+N7qlsftU2QdUP7wqy9q3d5VwTjAdYj6MoTrP7L3iUMu1o1EEop1" crossorigin="anonymous"></script> *@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shCk+XvZtUNv/Z9vToR0skBvV+pFfnD0uHsSc" crossorigin="anonymous"></script>
 </body>
 </html>
