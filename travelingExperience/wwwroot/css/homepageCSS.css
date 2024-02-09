@@ -1,18 +1,15 @@
 ﻿
 body {
-    background-image: url('give a road but 7686e7f3-4857-43d7-b936-51b599a051ff.png');
+    background-image: url('green car.png');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* This ensures that the background image remains fixed while scrolling */
+    background-attachment: fixed; 
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    color:aqua;
 }
 
-
-/* homepageCSS.css */
-
-/* Header Styles */
 
 .logo {
     width: 100px; /* Adjust the width as needed */
@@ -46,7 +43,7 @@ nav {
     color: #fff;
     text-align: center;
     padding: 100px 0;
-    border: 2px solid #fff; /* Border added */
+    border: 2px solid #fff; 
 }
 
     .hero .background {
@@ -119,7 +116,7 @@ nav {
 .service {
     text-align: center;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.5); /* Background color with opacity */
+    background-color: rgba(0, 0, 0, 0.5); 
     border-radius: 5px;
 }
 
@@ -150,3 +147,45 @@ footer {
                 color: #fff;
                 text-decoration: none;
             }
+@media only screen and (max-width: 480px) 
+{
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav {
+        margin-top: 20px;
+    }
+
+        nav a {
+            margin: 10px 0;
+        }
+
+    .hero h2 {
+        font-size: 30px;
+    }
+
+    .how-it-works,
+    .services {
+        padding: 20px 0;
+    }
+
+        .services .background {
+            background-image: none;
+            background-color: transparent;
+        }
+
+    .services-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+
+    .service {
+        padding: 8px;
+    }
+
+        .service img {
+            margin-bottom: 8px;
+        }
+}

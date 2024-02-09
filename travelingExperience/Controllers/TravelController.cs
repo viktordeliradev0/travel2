@@ -83,6 +83,7 @@ namespace sharedTravel.Controllers
             var TravelDetails = await _service.GetByIdAsync(id);
             if (TravelDetails == null) return View("Not Found");
             return View(TravelDetails);
+            
 
         }
         public async Task<IActionResult> Edit(int id)

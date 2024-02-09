@@ -27,4 +27,4 @@ namespace travelingExperience.DbConnetion
         public DbSet<Travel> Travels { get; set; }
         public DbSet<Comment> Comments { get; set; }
     }
-}
+} 
