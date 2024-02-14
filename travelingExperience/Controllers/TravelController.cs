@@ -186,12 +186,12 @@ namespace sharedTravel.Controllers
             return RedirectToAction("Index1");
         }
         [HttpGet]
-        public IActionResult FilteredTravels(TravelDestinations startDestination, TravelDestinations endDestination)
+        public IActionResult FilteredTravels(TravelDestinations startDestination, TravelDestinations endDestination, DateTime dateTime)
         {
             if (startDestination != null && endDestination != null)
             {
                 var filteredTravels = _db.Travels
-                    .Where(t => t.StartDestination == startDestination && t.EndDestination == endDestination)
+                    .Where(t => t.StartDestination == startDestination && t.EndDestination == endDestination && t.StartDate == dateTime)
                     .ToList();
 
                 return View(filteredTravels);

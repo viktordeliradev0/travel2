@@ -21,19 +21,27 @@
         <form id="filterForm" class="mb-3">
             <div class="input-group">
                 <select class="form-select" id="startDestinationSelect">
-                    <option value="">All Start Destinations</option>
+                    <option value="">От:</option>
                     @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
                     {
                         <option value="@value">@value</option>
                     }
                 </select>
                 <select class="form-select" id="endDestinationSelect">
-                    <option value="">All End Destinations</option>
+                    <option value="">До:</option>
                     @foreach (var value in Enum.GetValues(typeof(TravelDestinations)))
                     {
                         <option value="@value">@value</option>
                     }
                 </select>
+                <select class="form-select" id="dateTime">
+                    <option value="">Дата на тръгване:</option>
+                    @for (var date = new DateTime(DateTime.Now.Year, 1, 1); date <= new DateTime(DateTime.Now.Year, 12, 31); date = date.AddDays(1))
+                    {
+                        <option value="@date.ToString("yyyy-MM-dd")">@date.ToString("dd MMM yyyy")</option>
+                    }
+                </select>
+
                 <button type="button" class="btn btn-primary" id="filterButton" onclick="filterDestinations()">
                     <i class="fas fa-search"></i>
                 </button>
@@ -109,9 +117,10 @@
             function filterDestinations() {
                 var startDestination = document.getElementById('startDestinationSelect').value;
                 var endDestination = document.getElementById('endDestinationSelect').value;
+                var StartDate = document.getElementById('dateTime').value;
 
                 // Redirect to the FilteredTravels action with filter parameters
-                window.location.href = '/Travel/FilteredTravels?startDestination=' + startDestination + '&endDestination=' + endDestination;
+                window.location.href = '/Travel/FilteredTravels?startDestination=' + startDestination + '&endDestination=' + endDestination +'StartDate' + StartDate;
             }
         });
     </script>
