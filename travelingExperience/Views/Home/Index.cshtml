@@ -57,7 +57,28 @@
                 </div>
             </div>
         </div>
+    </section>  
+    <section class="feedback">
+        <div class="background"></div>
+        <div class="container">
+            <h2>Обратна връзка</h2>
+            <form action="https://api.web3forms.com/submit" method="POST">
+
+                <input type="hidden" name="access_key" value="12edfb2e-e8c0-4405-9430-615fc2d75647">
+                Име
+                <input type="text" name="name" required>
+                Имейл
+                <input type="email" name="email" required>
+                Съобщение
+                <textarea name="message" required></textarea>
+                <div class="h-captcha" data-captcha="true"></div>
+                <button type="submit">Изпрати</button>
+
+            </form>
+            <script src="https://web3forms.com/client/script.js" async defer></script>
+        </div>
     </section>
+
 
     <footer>
         <div class="container">
@@ -68,7 +89,8 @@
             </ul>
         </div>
     </footer>
-
+        
     <script src="~/js/mainpageJs.js"></script>
 </body>
 </html>
+

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using travelingExperience.Data.Services;
 using travelingExperience.DbConnetion;
@@ -18,9 +19,7 @@ public class Program
             .AddRoleManager<RoleManager<IdentityRole>>();
         // Other service registrations
         builder.Services.AddScoped<CommentService>();
-        builder.Services.AddScoped<ReservationService>();
-
-
+        builder.Services.AddScoped<ReservationService>(); 
 
         builder.Services.AddScoped<ITravelsService, TravelsService>();
         builder.Services.AddDbContext<AppDbContext>(options =>

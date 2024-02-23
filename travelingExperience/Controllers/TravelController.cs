@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using travelingExperience.Data.Enums;
 using travelingExperience.Data.Services;
 using travelingExperience.DbConnetion;
@@ -186,18 +187,25 @@ namespace sharedTravel.Controllers
             return RedirectToAction("Index1");
         }
         [HttpGet]
-        public IActionResult FilteredTravels(TravelDestinations startDestination, TravelDestinations endDestination, DateTime dateTime)
+        public IActionResult FilteredTravels(TravelDestinations startDestination, TravelDestinations endDestination, string dateTime)
         {
-            if (startDestination != null && endDestination != null)
+            if (startDestination != null && endDestination != null && !string.IsNullOrEmpty(dateTime))
             {
-                var filteredTravels = _db.Travels
-                    .Where(t => t.StartDestination == startDestination && t.EndDestination == endDestination && t.StartDate == dateTime)
-                    .ToList();
+                if (DateTime.TryParseExact(dateTime, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime))
+                {
+                    var filteredTravels = _db.Travels
+                        .Where(t => t.StartDestination == startDestination && t.EndDestination == endDestination && t.StartDate.Date == parsedDateTime.Date)
+                        .ToList();
 
-                return View(filteredTravels);
+                    return View(filteredTravels);
+                }
+                else
+                {
+                    return BadRequest("Invalid date format.");
+                }
             }
 
-            return BadRequest("Start destination or end destination cannot be null.");
+            return BadRequest("Start destination, end destination, or date cannot be null.");
         }
 
 
