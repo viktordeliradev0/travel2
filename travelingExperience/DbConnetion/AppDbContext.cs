@@ -26,5 +26,7 @@ namespace travelingExperience.DbConnetion
         public DbSet<Reserve> Reserves { get; set; }
         public DbSet<Travel> Travels { get; set; }
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<UserSavedTravel> UserSavedTravel { get; set;}
     }
 } 

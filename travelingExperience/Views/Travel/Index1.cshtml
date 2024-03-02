@@ -2,11 +2,11 @@
 @model IEnumerable<travelingExperience.Entity.Travel>
 
 @{
-    ViewData["Title"] = "List of Travels";
+    ViewData["Title"] = "Списък на пътуванията";
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,11 +43,18 @@
                 </select>
 
                 <button type="button" class="btn btn-primary" id="filterButton" onclick="filterDestinations()">
-                    <i class="fas fa-search"></i>
+                    <i class="fas fa-search"></i> Търсене
                 </button>
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
             </div>
         </form>
-        <div id="noResultsMessage" style="display: none;">No matching travels found.</div>
+        <div id="noResultsMessage" style="display: none;">Не са намерени съответстващи пътувания.</div>
 
         <div class="row">
             @foreach (var item in Model)
@@ -58,7 +65,7 @@
                         {
                             string imageBase64 = Convert.ToBase64String(item.TravelPicData);
                             string imageDataURL = string.Format("data:{0};base64,{1}", item.ProfilePictureContentType, imageBase64);
-                            <img src="@imageDataURL" class="card-img-top" alt="Travel Picture">
+                            <img src="@imageDataURL" class="card-img-top" alt="Снимка на пътуване">
                         }
                         else
                         {
@@ -66,38 +73,36 @@
                         }
 
                         <div class="card-body">
-                            <h5 class="card-title">From: @item.StartDestination - To: @item.EndDestination</h5>
-                            <p class="card-text">Departure Date: @item.StartDate.ToString("dd MMM yy")</p>
-                            <p class="card-text">Arrival Date: @item.EndDate.ToString("dd MMM yy")</p>
-                            <p class="card-text">Seats Available: @item.Seats</p>
-                            <p class="card-text">Price: @item.Price лв</p>
+                            <h5 class="card-title">От: @item.StartDestination - До: @item.EndDestination</h5>
+                            <p class="card-text">Дата на тръгване: @item.StartDate.ToString("dd MMM yyyy")</p>
+                            <p class="card-text">Дата на пристигане: @item.EndDate.ToString("dd MMM yyyy")</p>
+                            <p class="card-text">Налични места: @item.Seats</p>
+                            <p class="card-text">Цена: @item.Price лв</p>
                             <p class="card-text">
-                                Status:
+                                Статус:
                                 @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate && item.AvailableSeats > 0)
                                 {
-                                    <span class="badge badge-success">AVAILABLE</span>
+                                    <span class="badge badge-success">НАЛИЧНО</span>
                                 }
                                 else if (DateTime.Now > item.EndDate || item.Seats == 0)
                                 {
-                                    <span class="badge badge-danger">EXPIRED</span>
+                                    <span class="badge badge-danger">ИЗТЕКЛО</span>
                                 }
                                 else
                                 {
-                                    <span class="badge badge-primary">UPCOMING</span>
+                                    <span class="badge badge-primary">ПРЕДСТОЯЩО</span>
                                 }
                             </p>
                         </div>
 
                         <div class="card-footer bg-transparent">
                             <a class="btn btn-outline-primary float-right" asp-action="Info" asp-route-id="@item.Id">
-                                <i class="fas fa-info-circle"></i> Show Details
+                                <i class="fas fa-info-circle"></i> Покажи детайли
                             </a>
-                            <a class="btn btn-success text-white float-left @((DateTime.Now > item.EndDate) ? "disabled" : "")"
-                               asp-controller="Travel"
-                               asp-action="info"
-                               asp-route-id="@item.Id">
-                                <i class="fas fa-cart-plus"></i> Add to Liked (Price @item.Price.ToString("c"))
-                            </a>
+                            <form method="post" asp-action="SaveTravel" asp-controller="User">
+                                <input type="hidden" name="travelId" value="@item.Id" />
+                                <button type="submit" class="btn btn-primary">Save Travel</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -119,10 +124,17 @@
                 var endDestination = document.getElementById('endDestinationSelect').value;
                 var dateTime = document.getElementById('dateTime').value;
 
-                // Redirect to the FilteredTravels action with filter parameters
-                window.location.href = '/Travel/FilteredTravels?startDestination=' + startDestination + '&endDestination=' + endDestination +'&dateTime=' + dateTime;
+                // Check if any field is empty
+                if (!startDestination || !endDestination || !dateTime) {
+                    // If any field is empty, display a message
+                    alert("Моля полълнете всички полета");
+                } else {
+                    // If all fields are filled, redirect to the FilteredTravels action with filter parameters
+                    window.location.href = '/Travel/FilteredTravels?startDestination=' + startDestination + '&endDestination=' + endDestination + '&dateTime=' + dateTime;
+                }
             }
         });
     </script>
+
 </body>
 </html>

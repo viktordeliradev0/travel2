@@ -62,8 +62,11 @@ namespace travelingExperience.Entity
         [ForeignKey("UserID")]
         public ApplicationUser User { get; set; }
 
-       
-       [NotMapped]
+
+        public ICollection<UserSavedTravel> UsersWhoSaved { get; set; }
+
+
+        [NotMapped]
         public int AvailableSeats
         {
             get

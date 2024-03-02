@@ -188,25 +188,32 @@ namespace sharedTravel.Controllers
         }
         [HttpGet]
         public IActionResult FilteredTravels(TravelDestinations startDestination, TravelDestinations endDestination, string dateTime)
+{
+    if (startDestination != null && endDestination != null && !string.IsNullOrEmpty(dateTime))
+    {
+        if (DateTime.TryParseExact(dateTime, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime))
         {
-            if (startDestination != null && endDestination != null && !string.IsNullOrEmpty(dateTime))
-            {
-                if (DateTime.TryParseExact(dateTime, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDateTime))
-                {
-                    var filteredTravels = _db.Travels
-                        .Where(t => t.StartDestination == startDestination && t.EndDestination == endDestination && t.StartDate.Date == parsedDateTime.Date)
-                        .ToList();
+            var filteredTravels = _db.Travels
+                .Where(t => t.StartDestination == startDestination && t.EndDestination == endDestination && t.StartDate.Date == parsedDateTime.Date)
+                .ToList();
 
-                    return View(filteredTravels);
-                }
-                else
-                {
-                    return BadRequest("Invalid date format.");
-                }
-            }
-
-            return BadRequest("Start destination, end destination, or date cannot be null.");
+            return View(filteredTravels);
         }
+        else
+        {
+            TempData["ErrorMessage"] = "Invalid date format.";
+        }
+    }
+    else
+    {
+        TempData["ErrorMessage"] = "Start destination, end destination, or date cannot be null.";
+    }
+
+    // Redirect back to the original page
+    return RedirectToAction("OriginalAction"); // Replace "OriginalAction" with the name of your original action method
+}
+ 
+
 
 
 

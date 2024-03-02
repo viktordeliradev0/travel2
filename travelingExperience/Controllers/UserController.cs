@@ -212,8 +212,11 @@ namespace travelingExperience.Controllers
                 }
                 ModelState.AddModelError("", "Invalid Login attempt!");
             }
+          
             return View(model);
         }
+      
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -297,5 +300,129 @@ namespace travelingExperience.Controllers
 
             return RedirectToAction("MyReservations");
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            try
+            {
+                // Ensure userId is not null or empty
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("User ID is required.");
+                }
+
+                // Get the user by Id
+                var user = await GetUserByIdAsync(userId);
+
+                // Check if the user exists
+                if (user == null)
+                {
+                    return NotFound(); // Or handle the case where user is not found
+                }
+
+                // Remove the user from the database
+                _db.Users.Remove(user);
+                await _db.SaveChangesAsync();
+
+                // Redirect to appropriate action after deletion
+                return RedirectToAction("Index"); // Or any other action as needed
+            }
+            catch (Exception ex)
+            {
+                // Log the error or display an error message
+                ModelState.AddModelError("", "Failed to delete the user. Please try again later.");
+                return View("Error");
+            }
+        }
+
+
+
+
+
+        [HttpPost]
+        public IActionResult SaveTravel(int travelId)
+        {
+            // Get the current user
+            var user = _userManager.GetUserAsync(User).Result;
+            if (user == null)
+            {
+                // Handle case when user is not authenticated
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Check if the travel with the specified ID exists
+            var travel = _db.Travels.FirstOrDefault(t => t.Id == travelId);
+            if (travel == null)
+            {
+                // Handle case when the specified travel does not exist
+                return NotFound();
+            }
+
+            // Check if the travel is already saved by the user
+            var savedTravel = _db.UserSavedTravel
+                .FirstOrDefault(st => st.TravelId == travelId && st.UserId == user.Id);
+            if (savedTravel != null)
+            {
+                // Handle case when the travel is already saved by the user
+                return RedirectToAction("Index1", "Travel");
+            }
+
+                // Save the travel for the user
+                _db.UserSavedTravel.Add(new UserSavedTravel { UserId = user.Id, TravelId = travelId });
+            _db.SaveChanges();
+
+            return RedirectToAction("Index1", "Travel");
+        }
+
+
+
+
+
+        public IActionResult MySavedTravels()
+        {
+            // Get the current user
+            var user = _userManager.GetUserAsync(User).Result;
+            if (user == null)
+            {
+                // Handle case when user is not authenticated
+                return RedirectToAction("Login", "Account");
+            }
+
+            // Get the saved travels for the current user
+            var savedTravels = _db.UserSavedTravel
+                .Where(st => st.UserId == user.Id)
+                .Select(st => st.Travel)
+                .ToList();
+
+            return View(savedTravels);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnsaveTravel(int travelId)
+        {
+            // Retrieve the current user's ID
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            // Find the saved travel for the current user
+            var savedTravel = await _db.UserSavedTravel.SingleOrDefaultAsync(s => s.TravelId == travelId && s.UserId == userId);
+
+            if (savedTravel == null)
+            {
+                return NotFound();
+            }
+
+            // Remove the saved travel
+            _db.UserSavedTravel.Remove(savedTravel);
+            await _db.SaveChangesAsync();
+
+            // Redirect to a page or action method
+            return RedirectToAction("Index", "Home"); // For example
+        }
     }
+
+
 }
+
+

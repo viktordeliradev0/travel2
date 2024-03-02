@@ -16,7 +16,7 @@
             <th style="border: 1px solid #ddd; padding: 8px;">@Html.DisplayNameFor(model => model.Email)</th>
             <th style="border: 1px solid #ddd; padding: 8px;">@Html.DisplayNameFor(model => model.Number)</th>
             <th style="border: 1px solid #ddd; padding: 8px;">@Html.DisplayNameFor(model => model.Age)</th>
-         
+            <th style="border: 1px solid #ddd; padding: 8px;">Actions</th> <!-- Added Actions column for delete button -->
         </tr>
     </thead>
     <tbody>
@@ -29,24 +29,47 @@
                 <td style="border: 1px solid #ddd; padding: 8px;"> @Html.DisplayFor(modelItem => item.Email)</td>
                 <td style="border: 1px solid #ddd; padding: 8px;"> @Html.DisplayFor(modelItem => item.Number)</td>
                 <td style="border: 1px solid #ddd; padding: 8px;">@Html.DisplayFor(modelItem => item.Age)</td>
-                
-               
+                <td style="border: 1px solid #ddd; padding: 8px;">
+                <td style="border: 1px solid #ddd; padding: 8px;">
+                    <button onclick="confirmDelete('@item.Id')">Изтрий</button>
+                </td>
+
+                 
+
+                </td>
+
             </tr>
-        }
+        }   
+        
     </tbody>
 </table>
 
 
 <script>
-    function confirmDelete() {
-        var confirmation = confirm("Are you sure you want to delete?");
+    function confirmDelete(Id) {
+        var confirmation = confirm("Сигурни ли сте, че искате да изтриете този потребител?");
 
         if (confirmation) {
-            // If confirmed, proceed with the delete operation by redirecting to the delete action or handling the deletion process
-            return true;
-        } else {
-            // If cancelled, prevent the default action (deletion)
-            return false;
+            // Изпращаме AJAX заявка за изтриване на потребителя
+            $.ajax({
+                url: '@Url.Action("DeleteUser","User")', // URL на контролера и метода
+                type: 'POST', // Методът на заявката
+                data: { Id: Id }, // Данни, които да се изпратят (потребителски идентификатор)
+                success: function (result) {
+                    // Обновяване на интерфейса или редирект според необходимостта
+                    // Например, презареждане на страницата или обновяване на таблицата
+                    location.reload(); // Пример: презареждане на страницата след успешно изтриване
+                },
+                error: function (xhr, status, error) {
+                    // Обработка на грешки при изпращането на заявката
+                    console.error(xhr.responseText); // Извеждане на грешката в конзолата за дебъгване
+                    alert('Грешка при изтриване на потребителя. Моля, опитайте отново.');
+                }
+            });
         }
     }
 </script>
+
+
+
+

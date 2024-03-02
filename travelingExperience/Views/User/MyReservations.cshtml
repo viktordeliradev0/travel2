@@ -40,6 +40,9 @@
                                         <i class="fas fa-times-circle"></i> Отказ на Резервация
                                     </button>
                                 </form>
+                                <a class="btn btn-outline-primary" asp-action="Info" asp-controller="Travel" asp-route-id="@reservation.Travel.Id">
+                                    <i class="fas fa-info-circle"></i> Покажи детайли
+                                </a>
                             </td>
                         </tr>
                     }

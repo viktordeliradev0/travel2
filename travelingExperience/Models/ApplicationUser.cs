@@ -12,5 +12,7 @@ namespace travelingExperience.Models
         public ICollection<Travel> Travels { get; set; }
         public List<Comment> Comments { get; set; }
 
+        public ICollection<UserSavedTravel> SavedTravels { get; set; }
+
     }
 }

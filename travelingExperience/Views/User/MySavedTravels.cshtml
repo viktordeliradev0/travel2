@@ -1,0 +1,63 @@
+﻿@model List<travelingExperience.Entity.Travel>
+
+<h2>My Saved Travels</h2>
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    @if (item.TravelPicData != null && !string.IsNullOrEmpty(item.ProfilePictureContentType))
+                    {
+                        string imageBase64 = Convert.ToBase64String(item.TravelPicData);
+                        string imageDataURL = string.Format("data:{0};base64,{1}", item.ProfilePictureContentType, imageBase64);
+                        <img src="@imageDataURL" class="card-img-top" alt="Снимка на пътуване">
+                    }
+                    else
+                    {
+                        <div class="card-img-top" style="height: 200px; background-color: #f0f0f0;"></div>
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">От: @item.StartDestination - До: @item.EndDestination</h5>
+                        <p class="card-text">Дата на тръгване: @item.StartDate.ToString("dd MMM yyyy")</p>
+                        <p class="card-text">Дата на пристигане: @item.EndDate.ToString("dd MMM yyyy")</p>
+                        <p class="card-text">Налични места: @item.Seats</p>
+                        <p class="card-text">Цена: @item.Price лв</p>
+                        <p class="card-text">
+                            Статус:
+                            @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate && item.AvailableSeats > 0)
+                            {
+                                <span class="badge badge-success">НАЛИЧНО</span>
+                            }
+                            else if (DateTime.Now > item.EndDate || item.Seats == 0)
+                            {
+                                <span class="badge badge-danger">ИЗТЕКЛО</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-primary">ПРЕДСТОЯЩО</span>
+                            }
+                        </p>
+                    </div>
+
+                    <div class="card-footer bg-transparent">
+                        <a class="btn btn-outline-primary float-right" asp-action="Info" asp-controller="Travel" asp-route-id="@item.Id">
+                            <i class="fas fa-info-circle"></i> Покажи детайли
+                        </a>
+                        <form method="post" asp-action="SaveTravel" asp-controller="User">
+                            <input type="hidden" name="travelId" value="@item.Id" />
+                            <button type="submit" class="btn btn-primary">Save Travel</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </ul>
+}
+else
+{
+    <p>No travels saved yet.</p>
+}

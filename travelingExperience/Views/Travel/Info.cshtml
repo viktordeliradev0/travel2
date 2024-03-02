@@ -3,93 +3,171 @@
 @model travelingExperience.Entity.Travel
 
 
-@{
-    ViewData["Title"] = "Travel Magazine";
-}
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        /* Add your custom styles here */
+        body {
+            background-color: #f8f9fa; /* Светлосив фон */
+        }
 
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
 
+            .card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            }
 
+        .card-header {
+            background-color: #343a40; /* Тъмен фон */
+            color: #fff; /* Бял текст */
+            border-bottom: none;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card mb-3">
-                <div class="card-header bg-info text-white">
-                    <h4 class="card-title">@Model.StartDestination - @Model.EndDestination</h4>
-                    <p class="card-subtitle mb-2 text-muted">
-                       <b> Start Date: @Model.StartDate.ToString("dd MMM yy hh:mm") - End Date: @Model.EndDate.ToString("dd MMM yy hh:mm")</    b>
-                    </p>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="card-text">
-                                <b>Posted By:</b><br />
-                                @if (Model != null && Model.User != null)
-                                {
-                                  
-                                <a href="@Url.Action("ProfileView", "User", new { id = Model.User.Id })">@Model.User.UserName</a>
-                               
-                                }
-                                else
-                                {
-                                    <span>User not available</span>
-                                }
-                                <br />
-                                <b>Description:</b><br />
-                                @Model.Descrition
-                            </p>
-                            <p class="card-text">
-                                <b>Seats Available:</b> @Model.AvailableSeats<br />
-                                <b>Price:</b> @Model.Price.ToString("c", CultureInfo.CurrentCulture)
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="card-text">
-                                <b>Status:</b><br />
-                                @if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate && Model.AvailableSeats > 0)
-                                {
-                                    <span class="badge bg-success">AVAILABLE</span>
-                                }
-                                else if (DateTime.Now > Model.EndDate || Model.Seats == 0)
-                                {
-                                    <span class="badge bg-danger">EXPIRED</span>
-                                }
-                                else
-                                {
-                                    <span class="badge bg-primary">UPCOMING</span>
-                                }
+        .card-body {
+            background-color: #fff; /* Бял фон */
+        }
 
-                            </p>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                               
+        .card-footer {
+            background-color: #f8f9fa; /* Светлосив фон */
+            border-top: none;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Основен цвят */
+            border-color: #007bff;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3; /* По-тъмен основен цвят при навлизане */
+                border-color: #0056b3;
+            }
+
+        .badge {
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 5px;
+            padding: 0.4rem 0.6rem;
+        }
+
+        .badge-success {
+            background-color: #28a745; /* Цвят за успех */
+        }
+
+        .badge-danger {
+            background-color: #dc3545; /* Цвят за опасност */
+        }
+
+        .badge-primary {
+            background-color: #007bff; /* Основен цвят */
+        }
+
+        .alert {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">@Model.StartDestination - @Model.EndDestination</h4>
+                        <p class="card-subtitle mb-2">
+                            <b> Начална дата: @Model.StartDate.ToString("dd MMM yy hh:mm") - Крайна дата: @Model.EndDate.ToString("dd MMM yy hh:mm")</b>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p class="card-text">
+                                    <b>Публикувано от:</b><br />
+                                    @if (Model != null && Model.User != null)
+                                    {
+                                        <a href="@Url.Action("ProfileView", "User", new { id = Model.User.Id })">@Model.User.UserName</a>
+                                    }
+                                    else
+                                    {
+                                        <span>Потребителят не е наличен</span>
+                                    }
+                                    <br />
+                                    <b>Описание:</b><br />
+                                    @Model.Descrition
+                                </p>
+                                <p class="card-text">
+                                    <b>Налични места:</b> @Model.AvailableSeats<br />
+                                    <b>Цена:</b> @Model.Price.ToString("c", CultureInfo.CurrentCulture)
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="card-text">
+                                    <b>Статус:</b><br />
+                                    @if (DateTime.Now >= Model.StartDate && DateTime.Now <= Model.EndDate && Model.AvailableSeats > 0)
+                                    {
+                                        <span class="badge badge-success">НАЛИЧНО</span>
+                                    }
+                                    else if (DateTime.Now > Model.EndDate || Model.AvailableSeats == 0)
+                                    {
+                                        <span class="badge badge-danger">ИЗТЕКЛО</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-primary">ПРЕДСТОЯЩО</span>
+                                    }
+                                </p>
+                                @if (User.Identity.IsAuthenticated)
+                                {
                                     <form asp-action="Reservation" asp-controller="Travel" method="post">
                                         @Html.AntiForgeryToken()
                                         <input type="hidden" name="travelId" value="@Model.Id" />
-                                        <label for="reservedSeats">Number of Seats:</label>
+                                        <label for="reservedSeats">Брой места:</label>
                                         <input type="number" name="reservedSeats" required />
-                                        <button type="submit">Reserve Seats</button>
-                                    @if (TempData["ReservationWarning"] != null)
-                                    {
-                                        <div class="alert alert-warning">
-                                            @TempData["ReservationWarning"]
-                                        </div>
-                                    }
-
+                                        <button type="submit" class="btn btn-primary">Резервирай места</button>
+                                        @if (TempData["ReservationWarning"] != null)
+                                        {
+                                            <div class="alert alert-warning mt-3">
+                                                @TempData["ReservationWarning"]
+                                            </div>
+                                        }
                                     </form>
-                                
-                            }
-                            else
-                            {
-                                <p>Please <a href="/User/Login">log in</a> to make a reservation.</p>
-                            }
-                           
+                                }
+                                else
+                                {
+                                    <p>Моля, <a href="/User/Login">влезте в профила си</a>, за да направите резервация.</p>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+
+
 
