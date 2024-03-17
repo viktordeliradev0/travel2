@@ -3,96 +3,85 @@
 
 <link rel="stylesheet" href="~/css/travelsCSS.css">
 
-
 <div class="row" id="filteredTravelsContainer">
     @foreach (var item in Model)
     {
-
-        <div class="col-md-4  mb-3">
+        <div class="col-md-4 mb-3">
             <div class="card">
                 @if (item.TravelPicData != null && !string.IsNullOrEmpty(item.ProfilePictureContentType))
                 {
                     string imageBase64 = Convert.ToBase64String(item.TravelPicData);
                     string imageDataURL = string.Format("data:{0};base64,{1}", item.ProfilePictureContentType, imageBase64);
-                    <img src="@imageDataURL" class="card-img-top" alt="Travel Picture">
+                    <img src="@imageDataURL" class="card-img-top" alt="Снимка на пътуване">
                 }
                 else
                 {
-                    <p>No picture</p>
+                    <div class="card-img-top" style="height: 200px; background-color: #f0f0f0;"></div>
                 }
-                <div class="card-body">
 
-                    <h5 class="card-title"><b>Тръгва от:</b> @item.StartDestination - <b>Пристига в:</b> @item.EndDestination</h5>
-                    <p class="card-text"><b>Дата на тръгване: </b>@item.StartDate.ToString("dd MMM yy")</p>
-                    <p class="card-text"><b>Дата на пристигане: </b>@item.EndDate.ToString("dd MMM yy")</p>
-                    <p class="card-text"><b>Mеста: </b>@item.Seats</p>
-                    <p class="card-text"><b>Цена: </b>@item.Price лв</p>
-                    <p class="card-text ">
-                        <b>Status: </b>
+                <div class="card-body">
+                    <h5 class="card-title">От: @item.StartDestination - До: @item.EndDestination</h5>
+                    <p class="card-text">Дата на тръгване: @item.StartDate.ToString("dd MMM yyyy")</p>
+                    <p class="card-text">Дата на пристигане: @item.EndDate.ToString("dd MMM yyyy")</p>
+                    <p class="card-text">Налични места: @item.Seats</p>
+                    <p class="card-text">Цена: @item.Price лв</p>
+                    <p class="card-text">
+                        Статус:
                         @if (DateTime.Now >= item.StartDate && DateTime.Now <= item.EndDate && item.AvailableSeats > 0)
                         {
-                            <span class="badge bg-success">AVAILABLE</span>
+                            <span class="badge badge-success">НАЛИЧНО</span>
                         }
                         else if (DateTime.Now > item.EndDate || item.Seats == 0)
                         {
-                            <span class="badge bg-danger">EXPIRED</span>
+                            <span class="badge badge-danger">ИЗТЕКЛО</span>
                         }
                         else
                         {
-                            <span class="badge bg-primary">UPCOMING</span>
+                            <span class="badge badge-primary">ПРЕДСТОЯЩО</span>
                         }
                     </p>
-
                 </div>
 
-                <div class="col-md-12">
-                    <div class="card-footer ">
-                        <p class="card-text">
-                            <a class="btn btn-outline-primary float-right" asp-action="Info" asp-route-id="@item.Id">
-                                <i class="bi bi-eye-fill"></i> Show Details
-                            </a>
-                            <a class="btn btn-success text-white @((DateTime.Now > item.EndDate) ? "disabled" : "")"
-                               asp-controller="Travel"
-                               asp-action="info"
-                               asp-route-id="@item.Id">
-                                <i class="bi bi-cart-plus"></i> Add to Liked (Price @item.Price.ToString("c"))
-                            </a>
-                        </p>
-                    </div>
+                <div class="card-footer bg-transparent">
+                    <a class="btn btn-outline-primary float-right" asp-action="Info" asp-route-id="@item.Id">
+                        <i class="fas fa-info-circle"></i> Покажи детайли
+                    </a>
+                    <form method="post" asp-action="SaveTravel" asp-controller="User">
+                        <input type="hidden" name="travelId" value="@item.Id" />
+                        <button type="submit" class="btn btn-primary">Save Travel</button>
+                    </form>
                 </div>
             </div>
         </div>
     }
 </div>
-@section Script{
-    
+
+@section Script {
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Get filter parameters from the URL
+            // Получаване на параметрите за филтриране от URL адреса
             var urlParams = new URLSearchParams(window.location.search);
             var startDestination = urlParams.get('start');
             var endDestination = urlParams.get('end');
 
-            // Get all the card elements
+            // Получаване на всички елементи на карти
             var cards = document.querySelectorAll('.card');
 
-            // Get the container for filtered travels
+            // Получаване на контейнера за филтрирани пътувания
             var filteredTravelsContainer = document.getElementById('filteredTravelsContainer');
 
-            // Filter and display matching cards
+            // Филтриране и показване на съвпадащите карти
             cards.forEach(function (card) {
                 var startDestinationText = card.querySelector('.card-title').textContent.toLowerCase();
                 var endDestinationText = card.querySelector('.card-text:nth-child(3)').textContent.toLowerCase();
 
                 var match = (startDestination === '' || startDestinationText.includes(startDestination)) &&
-                            (endDestination === '' || endDestinationText.includes(endDestination));
+                    (endDestination === '' || endDestinationText.includes(endDestination));
 
                 if (match) {
-                    filteredTravelsContainer.appendChild(card.cloneNode(true)); // Clone and append the matching card
+                    filteredTravelsContainer.appendChild(card.cloneNode(true)); // Клониране и добавяне на съвпадащата карта
                 }
             });
         });
     </script>
-
-
-} 
+}

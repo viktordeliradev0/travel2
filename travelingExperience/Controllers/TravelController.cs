@@ -62,7 +62,7 @@ namespace sharedTravel.Controllers
         {
             if (!ModelState.IsValid)
             {
-                if (travel.TravelPic !=null)
+                if (travel.TravelPic !=null) 
                 {
                     using (var memoryStream = new MemoryStream())
                     {
@@ -120,23 +120,62 @@ namespace sharedTravel.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var TravelDetails = await _service.GetByIdAsync(id);
-            if (TravelDetails == null) return View("Not Found");
-            return View(TravelDetails);
+            try
+            {
+                // Find the travel record
+                var travel = await _db.Travels.FindAsync(id);
+
+                // If the travel record exists, delete it along with related UserSavedTravel records
+                if (travel != null)
+                {
+                    // Delete related records in UserSavedTravel table
+                    var relatedUserSavedTravels = _db.UserSavedTravel.Where(ust => ust.TravelId == id);
+                    _db.UserSavedTravel.RemoveRange(relatedUserSavedTravels);
+
+                    // Remove the travel record
+                    _db.Travels.Remove(travel);
+
+                    // Save changes to the database
+                    await _db.SaveChangesAsync();
+
+                    return RedirectToAction("Index1","Travel"); // Assuming you have an action named Index to redirect after deletion
+                }
+                else
+                {
+                    return NotFound(); // Return 404 if the travel record doesn't exist
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception appropriately, perhaps by displaying an error message
+                // or redirecting to an error page.
+                return RedirectToAction("Error", "Home");
+            }
         }
 
-
-        [HttpPost, ActionName("Delete")]
+            [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var travelDetails = await _service.GetByIdAsync(id);
 
-            if (travelDetails == null) return View("Not Found");
+            if (travelDetails == null)
+            {
+                return View("NotFound");
+            }
 
-            await _service.DeleteAsync(id);
-
-            return RedirectToAction("Index");
+            try
+            {
+                await _service.DeleteAsync(id);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception appropriately, perhaps by displaying an error message
+                // or redirecting to an error page.
+                return RedirectToAction("Error", "Home");
+            }
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

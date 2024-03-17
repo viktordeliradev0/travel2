@@ -49,7 +49,7 @@ namespace travelingExperience.Controllers
 
             if (user == null)
             {
-                return NotFound(); // Handle case where user is not found
+                return NotFound(); 
             }
             var userId = user.Id;
             var comments = _commentService.GetCommentsByUserId(userId);
@@ -94,7 +94,7 @@ namespace travelingExperience.Controllers
             
             if (user == null)
             {
-                return NotFound(); // Handle case where user is not found
+                return NotFound();
             }
 
            var comments = _commentService.GetCommentsByUserId(id);
@@ -123,7 +123,7 @@ namespace travelingExperience.Controllers
 
             if (user == null)
             {
-                return NotFound(); // Handle case where target user is not found
+                return NotFound(); 
             }
 
             var newComment = new Comment
@@ -250,13 +250,13 @@ namespace travelingExperience.Controllers
                 }
             }
             return View(model);
-        }
+        }   
 
         [HttpPost]
         public async Task<IActionResult> Logoff()
         {
             await _singInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "User");
         }
 
        
