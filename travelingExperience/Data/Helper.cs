@@ -10,7 +10,7 @@ namespace travelingExperience.Data
         {
             return new List<SelectListItem>
             {
-                //new SelectListItem { Value = Admin, Text = Admin },
+                new SelectListItem { Value = Admin, Text = Admin },
                 new SelectListItem { Value = User, Text = User="Потребител" }
 
             };

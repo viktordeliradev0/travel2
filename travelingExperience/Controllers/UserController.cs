@@ -84,10 +84,6 @@ namespace travelingExperience.Controllers
 
             return user;
         }
-
-       
-       
-
         public async Task<IActionResult> ProfileView(string id)
         {
             var user = await GetUserByIdOrNotFoundAsync(id);
@@ -140,44 +136,6 @@ namespace travelingExperience.Controllers
 
             return RedirectToAction("ProfileView", new { id = userId });
         }
-
-
-
-
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> AddComment(UserProfileViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var newComment = new Comment
-        //        {
-        //            UserID = model.User.Id,
-        //            CommentText = model.NewCommentText,
-        //            CommentDate = DateTime.Now
-        //        };
-
-        //        // Add the new comment to the database
-        //        _db.Comments.Add(newComment);
-        //        await _db.SaveChangesAsync();
-
-        //        // Optionally, you can update the UserComments property in your model
-        //        model.Comments.Add(new Comment
-        //        {
-        //            CommentText = newComment.CommentText,
-        //            CommentDate = newComment.CommentDate
-        //        });
-
-        //        // Redirect back to the profile page or handle as needed
-        //        return RedirectToAction("Profile", new { id = model.User.Id });
-        //    }
-
-        //    // If the model state is not valid, you might want to handle this case (e.g., show an error message)
-        //    return View("Error");
-        //}
-
-
 
         public IActionResult Index()
         {
